@@ -16,7 +16,7 @@ Think of it as the plumbing between your assistant and everything XBert already 
 Key facts:
 
 - Address: https://mcp-gateway.xbert.io/mcp (a remote MCP server; if your assistant asks for a transport type, choose HTTP, sometimes shown as "streamable HTTP").
-- Works with: Claude on the web and Claude Desktop (via Settings → Connectors), Claude Code, and any other assistant that supports MCP connectors. ChatGPT works too, with more setting up — see Get started for what your plan and your workspace admin need to allow.
+- Works with: Claude on the web and Claude Desktop (via Customize → Connectors), Claude Code, and any other assistant that supports MCP connectors. ChatGPT works too, with more setting up — see Get started for what your plan and your workspace admin need to allow.
 - Sign-in: OAuth with your existing XBert account. No new account, no API keys, no code. Your credentials stay with XBert — the assistant never sees your password.
 - Permissions and plan: Two things decide what your assistant can reach: your XBert role, and the client's plan. Role is the one most people think of — if you can't see a client in XBert, your assistant can't either. The second is the plan: the data and reporting tools only run for clients on an AI-enabled plan, so a client on another plan will answer for tasks, templates and notes, but not for its books. That isn't a fault when it happens; it's the plan.
 - Accounting systems reached through XBert: Xero, QuickBooks, MYOB and FreeAgent. Xero Practice Manager is the practice-management source behind jobs, WIP and capacity — it is optional and is not a ledger.
@@ -27,14 +27,15 @@ Key facts:
 
 ## Connected in three steps
 
-1. **Point your assistant at XBert.** In your assistant's settings, add a connector with one address: https://mcp-gateway.xbert.io/mcp
-   - Claude (web & Desktop): Settings → Connectors → Add custom connector → name it XBert, paste the address, add it, then select Connect.
-   - Claude Code: run `claude mcp add --transport http xbert https://mcp-gateway.xbert.io/mcp`, then run `/mcp` in your next session and complete the sign-in.
-   - Other MCP-aware assistants: add a remote MCP server with the address above.
+1. **Point your assistant at XBert.** In your assistant's connector settings (in Claude: Customize → Connectors), add one address: https://mcp-gateway.xbert.io/mcp
+   - Claude (web & Desktop): Customize (left sidebar) → Connectors → + → Add custom connector → name it XBert, paste the address, add it, then select Connect. Connectors moved out of Settings; on Team and Enterprise an Owner must add it first under Organization settings → Connectors. One-click, name and address pre-filled: https://claude.ai/customize/connectors?modal=add-custom-connector&connectorName=XBert&connectorUrl=https%3A%2F%2Fmcp-gateway.xbert.io%2Fmcp
+   - Claude Code: run `claude mcp add --transport http --callback-port 6274 xbert https://mcp-gateway.xbert.io/mcp`, then run `/mcp` in your next session and complete the sign-in. The --callback-port 6274 flag is required: XBert accepts only that loopback port, and Claude Code otherwise picks one at random.
+   - ChatGPT: turn on developer mode under Settings → Security and login (web only; on Business, Enterprise and Edu an admin enables it first), then add the address at https://chatgpt.com/plugins.
+   - Other MCP-aware assistants: add a remote MCP server with the address above. Assistants that run on your own machine must complete sign-in on loopback port 6274.
 2. **Sign in to approve.** A browser window opens and you sign in with your XBert account. The assistant gets your permissions — no more, no less.
 3. **Start asking.** Type the question the way you'd ask a colleague — about a client's books, or about how the practice itself is tracking. For example: "Who owes us the most right now, across every client?" and "Who's over capacity next week, and which jobs are running behind?"
 
-Setup takes about five minutes on Claude. ChatGPT needs developer mode enabled first, so allow longer. Illustrated step-by-step guide: https://support.xbert.io/en/articles/14492922-how-to-add-xbert-as-a-custom-mcp-connector-in-claude
+Setup takes about five minutes on Claude. ChatGPT needs developer mode enabled first, so allow longer. Illustrated step-by-step guide: https://support.xbert.io/en/articles/14492922-how-to-set-up-the-xbert-mcp
 
 Before you begin you need three things: an XBert account with your clients' files connected as usual; an assistant that speaks MCP; and your normal XBert login (the assistant signs in as you and can only see what your XBert role allows). Two further conditions: the data and reporting tools only run for clients on an AI-enabled plan, so a client on another plan answers for tasks, templates and notes but not for its books; and on ChatGPT custom connectors sit behind developer mode, which on a Business, Enterprise or Edu workspace an admin has to switch on first.
 
@@ -97,7 +98,7 @@ MCP stands for Model Context Protocol — a standard, secure way for an AI assis
 No. Setup is paste-one-address-and-sign-in, and from then on you type questions the way you'd ask a colleague. There's no code, no API keys and no syntax to learn.
 
 **Which AI assistants work with it?**
-Claude on the web and Claude Desktop (via Settings → Connectors), Claude Code, and any other assistant that supports MCP connectors. ChatGPT works too, with more setting up — see Get started for what your plan and your workspace admin need to allow.
+Claude on the web and Claude Desktop (via Customize → Connectors), Claude Code, and any other assistant that supports MCP connectors. ChatGPT works too, with more setting up — see Get started for what your plan and your workspace admin need to allow.
 
 **Is my client data safe?**
 You sign in with your XBert account using OAuth, so your credentials stay with XBert and the assistant inherits your XBert role — it can only see what you can see. Write actions are marked for your assistant to confirm, and every action is written to the XBert audit log. You can disconnect the assistant at any time.
@@ -117,7 +118,7 @@ No. You connect with your existing XBert login, and your existing XBert role and
 
 ## Support
 
-- [Setup guide (step-by-step with screenshots)](https://support.xbert.io/en/articles/14492922-how-to-add-xbert-as-a-custom-mcp-connector-in-claude)
+- [Setup guide (step-by-step with screenshots)](https://support.xbert.io/en/articles/14492922-how-to-set-up-the-xbert-mcp)
 - [Help centre](https://support.xbert.io)
 - [Managing and removing access](https://intelligence.xbert.io/get-started#manage-access)
 - [xbert.io — the XBert product site](https://www.xbert.io)

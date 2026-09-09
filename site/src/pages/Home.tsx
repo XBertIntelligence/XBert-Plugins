@@ -25,7 +25,7 @@ import { QuoteCard } from "../components/QuoteCard";
 import { ThemeImage } from "../components/ThemeImage";
 
 const SETUP_GUIDE_URL =
-  "https://support.xbert.io/en/articles/14492922-how-to-add-xbert-as-a-custom-mcp-connector-in-claude";
+  "https://support.xbert.io/en/articles/14492922-how-to-set-up-the-xbert-mcp";
 
 const ASK_PROMPTS = [
   "Who owes us the most right now, across every client?",
@@ -114,7 +114,7 @@ const FAQS = [
   {
     question: "Which AI assistants work with it?",
     answer:
-      "Claude on the web and Claude Desktop (via Settings → Connectors), Claude Code, and any other assistant that supports MCP connectors. ChatGPT works too, with more setting up — see Get started for what your plan and your workspace admin need to allow.",
+      "Claude on the web and Claude Desktop (via Customize → Connectors), Claude Code, and any other assistant that supports MCP connectors. ChatGPT works too, with more setting up — see Get started for what your plan and your workspace admin need to allow.",
   },
   {
     question: "Is my client data safe?",
@@ -270,7 +270,7 @@ export default function HomePage() {
               title: "Point your assistant at XBert",
               body: (
                 <>
-                  {"In your assistant's settings, add a connector with one address: "}
+                  {"In your assistant's connector settings — in Claude, Customize → Connectors — add one address: "}
                   <span className="font-mono text-neutral-900 dark:text-neutral-100 break-words">
                     {MCP_ADDRESS}
                   </span>
