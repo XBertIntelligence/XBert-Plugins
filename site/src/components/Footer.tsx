@@ -3,7 +3,7 @@ import { CopyButton } from "./CopyButton";
 import { MCP_ADDRESS } from "./AddressChip";
 
 const SETUP_GUIDE_URL =
-  "https://support.xbert.io/en/articles/14492922-how-to-add-xbert-as-a-custom-mcp-connector-in-claude";
+  "https://support.xbert.io/en/articles/14492922-how-to-set-up-the-xbert-mcp";
 
 const columnHeadingClass =
   "text-xs uppercase tracking-wider text-neutral-500 dark:text-neutral-400 mb-3";

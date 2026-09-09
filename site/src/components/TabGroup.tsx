@@ -82,11 +82,13 @@ export function TabGroup({ tabs, label, defaultTab, className = "" }: TabGroupPr
             >
               {t.label}
               {selected && (
-                // Hidden below sm: the tabs stack full-width there, so an
-                // underline hung 9px below the button would land on the next tab.
+                // Drawn INSIDE the button, not hung below it: the tablist wraps
+                // whenever the labels outgrow the track (four tabs do so between
+                // sm and ~690px, and every tab stacks full-width below sm), and an
+                // underline outside the box lands on the row beneath.
                 <motion.span
                   layoutId="tabgroup-underline"
-                  className="hidden sm:block absolute inset-x-2 -bottom-[9px] h-px bg-gradient-to-r from-transparent via-xbert-indigo dark:via-xbert-cyan to-transparent"
+                  className="absolute inset-x-2 bottom-0 h-px bg-gradient-to-r from-transparent via-xbert-indigo dark:via-xbert-cyan to-transparent"
                 />
               )}
             </button>

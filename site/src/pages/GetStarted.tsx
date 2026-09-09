@@ -11,12 +11,47 @@ import { StepFlow } from "../components/StepFlow";
 import { CopyButton } from "../components/CopyButton";
 import { AskPrompt } from "../components/AskPrompt";
 import { CtaBand } from "../components/CtaBand";
+import { ConnectButton } from "../components/ConnectButton";
 import { ThemeImage } from "../components/ThemeImage";
 
 const SETUP_GUIDE_URL =
-  "https://support.xbert.io/en/articles/14492922-how-to-add-xbert-as-a-custom-mcp-connector-in-claude";
+  "https://support.xbert.io/en/articles/14492922-how-to-set-up-the-xbert-mcp";
 
-const CLAUDE_CODE_COMMAND = `claude mcp add --transport http xbert ${MCP_ADDRESS}`;
+/**
+ * Deep links, every one taken from the vendor's own documentation.
+ *
+ * Claude's two "?modal=add-custom-connector" links follow Anthropic's published
+ * install-link template (claude.com/docs/connectors/building/directory-vs-custom)
+ * and pre-fill the name and address. They degrade safely: drop the parameters and
+ * the visitor still lands on the connectors screen they were going to.
+ *
+ * There is deliberately no one-click button for assistants that run on the user's
+ * own machine (Cursor, VS Code, Zed and friends). Their sign-in comes back on a
+ * loopback port the gateway rejects in production — the button would install the
+ * server and then fail at sign-in, which is worse than no button at all.
+ */
+const SUPPORT_URL = "https://support.xbert.io";
+const CLAUDE_CONNECTORS_URL = "https://claude.ai/customize/connectors";
+const CLAUDE_ADD_CONNECTOR_URL = `${CLAUDE_CONNECTORS_URL}?modal=add-custom-connector&connectorName=XBert&connectorUrl=${encodeURIComponent(
+  MCP_ADDRESS,
+)}`;
+const CLAUDE_ADMIN_ADD_CONNECTOR_URL = `https://claude.ai/admin-settings/connectors?modal=add-custom-connector&connectorName=XBert&connectorUrl=${encodeURIComponent(
+  MCP_ADDRESS,
+)}`;
+const ANTHROPIC_CONNECTOR_GUIDE =
+  "https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp";
+const CLAUDE_CODE_DOCS = "https://code.claude.com/docs/en/mcp";
+const CHATGPT_PLUGINS_URL = "https://chatgpt.com/plugins";
+const OPENAI_DEVELOPER_MODE_GUIDE =
+  "https://developers.openai.com/api/docs/guides/developer-mode";
+const OPENAI_HELP_MCP =
+  "https://help.openai.com/en/articles/12584461-developer-mode-and-mcp-apps-in-chatgpt";
+
+/**
+ * --callback-port 6274 is load-bearing: the gateway rejects every other loopback
+ * port in production, and Claude Code otherwise picks one at random.
+ */
+const CLAUDE_CODE_COMMAND = `claude mcp add --transport http --callback-port 6274 xbert ${MCP_ADDRESS}`;
 
 const STRONG = "font-semibold text-neutral-900 dark:text-white";
 const MONO = "font-mono text-neutral-900 dark:text-neutral-100";
@@ -50,8 +85,8 @@ const CHECKLIST = [
       <>
         Claude is the straightforward path — web, Desktop or Claude Code, and you paste one
         address. ChatGPT takes more setting up. Custom MCP connectors sit behind developer
-        mode, which is web only and lives under Apps (labelled Plugins on some accounts) in
-        settings; on a Business, Enterprise or Edu workspace an admin has to switch it on
+        mode, which is web only and lives under Settings → Security and login; on a
+        Business, Enterprise or Edu workspace an admin has to switch it on
         and publish the connector before anyone else can use it. Those workspace plans are
         also the only place OpenAI has released write actions, and they are still in beta.
         On Plus or Pro, treat XBert as read-only: OpenAI's help centre says Pro can connect
@@ -81,56 +116,105 @@ const CONNECT_TABS = [
     label: "Claude (web & Desktop)",
     content: (
       <div>
-        <StepFlow
-          variant="list"
-          steps={[
-            {
-              title: "",
-              body: (
-                <>
-                  Open <strong className={STRONG}>Settings → Connectors</strong> (on some
-                  plans it's labelled <strong className={STRONG}>Integrations</strong>).
-                </>
-              ),
-            },
-            {
-              title: "",
-              body: (
-                <>
-                  Choose <strong className={STRONG}>Add custom connector</strong>.
-                </>
-              ),
-            },
-            {
-              title: "",
-              body: (
-                <>
-                  Name it <strong className={STRONG}>XBert</strong> and paste the address
-                  above, then add it.
-                </>
-              ),
-            },
-            {
-              title: "",
-              body: (
-                <>
-                  Select <strong className={STRONG}>Connect</strong> and sign in with your
-                  XBert account in the window that opens.
-                </>
-              ),
-            },
-            {
-              title: "",
-              body: <>Back in the chat, XBert now appears in your tools menu. Ask away.</>,
-            },
-          ]}
-        />
+        <div className="flex flex-wrap items-center gap-3">
+          <ConnectButton href={CLAUDE_ADD_CONNECTOR_URL}>Add XBert to Claude</ConnectButton>
+          <ConnectButton href={CLAUDE_CONNECTORS_URL} variant="secondary">
+            Open Claude connectors
+          </ConnectButton>
+        </div>
+        <p className="mt-4 text-sm text-neutral-600 dark:text-neutral-400">
+          The first button opens Claude's <strong className={STRONG}>Add custom connector</strong>{" "}
+          box with the name and address already filled in — sign in to Claude first and it lands
+          ready to add. Both buttons end up on the same screen, so use the second if you would
+          rather type it in yourself. On a Team or Enterprise plan only an Owner can add a
+          connector — there is a button for them below.
+        </p>
+        <div className="mt-8">
+          <StepFlow
+            variant="list"
+            steps={[
+              {
+                title: "",
+                body: (
+                  <>
+                    Select <strong className={STRONG}>Customize</strong> in Claude's left sidebar,
+                    then the <strong className={STRONG}>Connectors</strong> tab. It moved out of
+                    Settings — if you have been hunting through Settings for it, that is why it
+                    wasn't there.
+                  </>
+                ),
+              },
+              {
+                title: "",
+                body: (
+                  <>
+                    Select <strong className={STRONG}>+</strong>, then{" "}
+                    <strong className={STRONG}>Add custom connector</strong>.
+                  </>
+                ),
+              },
+              {
+                title: "",
+                body: (
+                  <>
+                    Name it <strong className={STRONG}>XBert</strong>, paste the address above as
+                    the remote MCP server URL, and select <strong className={STRONG}>Add</strong>.
+                    Leave the Client ID and Client Secret boxes empty — there is nothing for you
+                    to fetch from XBert.
+                  </>
+                ),
+              },
+              {
+                title: "",
+                body: (
+                  <>
+                    Select <strong className={STRONG}>Connect</strong> and sign in with your XBert
+                    account in the window that opens.
+                  </>
+                ),
+              },
+              {
+                title: "",
+                body: <>Back in the chat, XBert now appears in your tools menu. Ask away.</>,
+              },
+            ]}
+          />
+        </div>
+
+        <div className="mt-8 rounded-xl border border-black/10 bg-black/[0.02] dark:border-white/10 dark:bg-white/[0.02] p-5">
+          <h3 className="text-sm font-semibold text-neutral-900 dark:text-white">
+            On a Team or Enterprise plan? An Owner goes first.
+          </h3>
+          <p className="mt-2 text-sm text-neutral-700 dark:text-neutral-400 leading-relaxed">
+            Members can't add a custom connector on those plans. An Owner adds XBert once for the
+            whole firm under <strong className={STRONG}>Organization settings → Connectors</strong>{" "}
+            — labelled <strong className={STRONG}>Admin settings</strong> in some places — and
+            everyone else then finds XBert under{" "}
+            <strong className={STRONG}>Customize → Connectors</strong> and selects{" "}
+            <strong className={STRONG}>Connect</strong>. On Free, Pro and Max you add it yourself,
+            with no admin involved — though Free allows only one custom connector at a time.
+          </p>
+          <div className="mt-4">
+            <ConnectButton href={CLAUDE_ADMIN_ADD_CONNECTOR_URL} variant="secondary">
+              Owners: add XBert for the firm
+            </ConnectButton>
+          </div>
+        </div>
+
         <p className="mt-6 text-sm text-neutral-600 dark:text-neutral-400">
           Step-by-step with screenshots in{" "}
           <a href={SETUP_GUIDE_URL} target="_blank" rel="noopener noreferrer" className={LINK}>
-            the setup guide →
+            the XBert setup guide →
           </a>
-          .
+          . Claude's own version:{" "}
+          <a
+            href={ANTHROPIC_CONNECTOR_GUIDE}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={LINK}
+          >
+            adding a custom connector →
+          </a>
         </p>
       </div>
     ),
@@ -161,8 +245,8 @@ const CONNECT_TABS = [
               title: "",
               body: (
                 <>
-                  In your next session, run <span className={MONO}>/mcp</span> and complete
-                  the XBert sign-in when prompted.
+                  In your next session, run <span className={MONO}>/mcp</span> and complete the
+                  XBert sign-in when prompted.
                 </>
               ),
             },
@@ -172,9 +256,91 @@ const CONNECT_TABS = [
             },
           ]}
         />
+        <div className="mt-6 flex items-start gap-3 rounded-xl border border-xbert-indigo/25 bg-xbert-indigo/[0.06] dark:border-xbert-cyan/20 dark:bg-xbert-cyan/[0.05] px-4 py-3 text-sm text-neutral-700 dark:text-neutral-300">
+          <Info
+            size={16}
+            aria-hidden
+            className="mt-0.5 text-xbert-indigo dark:text-xbert-cyan flex-shrink-0"
+          />
+          <p>
+            <span className={MONO}>--callback-port 6274</span> is not optional. Without it Claude
+            Code picks a port at random to finish the sign-in, and XBert accepts only 6274 — leave
+            the flag out and the sign-in fails.
+          </p>
+        </div>
         <p className="mt-6 text-sm text-neutral-600 dark:text-neutral-400">
-          On an older Claude Code? Run <span className={MONO}>claude mcp add --help</span>{" "}
-          to check the syntax.
+          By default the connection only works in the folder you ran the command in — add{" "}
+          <span className={MONO}>--scope user</span> to reach XBert from anywhere. If your Claude
+          Code doesn't recognise <span className={MONO}>--callback-port</span>, update it first:
+          the flag is only in recent versions. Full syntax in{" "}
+          <a href={CLAUDE_CODE_DOCS} target="_blank" rel="noopener noreferrer" className={LINK}>
+            Claude Code's MCP documentation →
+          </a>
+        </p>
+      </div>
+    ),
+  },
+  {
+    id: "chatgpt",
+    label: "ChatGPT",
+    content: (
+      <div>
+        <div className="flex flex-wrap items-center gap-3">
+          <ConnectButton href={CHATGPT_PLUGINS_URL}>Open ChatGPT plugins</ConnectButton>
+          <ConnectButton href={OPENAI_DEVELOPER_MODE_GUIDE} variant="secondary">
+            OpenAI: turn on developer mode
+          </ConnectButton>
+        </div>
+        <p className="mt-4 text-sm text-neutral-600 dark:text-neutral-400">
+          ChatGPT has no one-click install. The first button opens the page where you add the
+          connection; the second is OpenAI's own write-up of developer mode, which has to be on
+          first or there is nowhere to add anything.
+        </p>
+        <div className="mt-8">
+          <StepFlow
+            variant="list"
+            steps={[
+              {
+                title: "",
+                body: (
+                  <>
+                    Turn on developer mode under <strong className={STRONG}>Settings</strong> →{" "}
+                    <strong className={STRONG}>Security and login</strong>. Web only. On a Business,
+                    Enterprise or Edu workspace an admin has to enable it for the workspace before
+                    the switch appears for you.
+                  </>
+                ),
+              },
+              {
+                title: "",
+                body: (
+                  <>
+                    Open <strong className={STRONG}>Plugins</strong> and select{" "}
+                    <strong className={STRONG}>+</strong>. OpenAI has been renaming this area, so
+                    your account may call it Apps or Connectors instead.
+                  </>
+                ),
+              },
+              {
+                title: "",
+                body: (
+                  <>
+                    Give it a name and description, then paste the address above as the MCP
+                    server URL — keep the <span className={MONO}>/mcp</span> on the end — and
+                    create it, then sign in.
+                  </>
+                ),
+              },
+            ]}
+          />
+        </div>
+        <p className="mt-6 text-sm text-neutral-600 dark:text-neutral-400">
+          Check what your own plan allows before you rely on it. OpenAI's pages don't agree with
+          each other on which plans get custom connectors, and write actions are narrower again, so
+          treat XBert as read-only on ChatGPT until you have watched a write go through.{" "}
+          <a href={OPENAI_HELP_MCP} target="_blank" rel="noopener noreferrer" className={LINK}>
+            OpenAI on developer mode and MCP →
+          </a>
         </p>
       </div>
     ),
@@ -184,6 +350,24 @@ const CONNECT_TABS = [
     label: "Other MCP-aware assistants",
     content: (
       <div>
+        <div className="mb-8 flex items-start gap-3 rounded-xl border border-xbert-indigo/25 bg-xbert-indigo/[0.06] dark:border-xbert-cyan/20 dark:bg-xbert-cyan/[0.05] px-4 py-3 text-sm text-neutral-700 dark:text-neutral-300">
+          <Info
+            size={16}
+            aria-hidden
+            className="mt-0.5 text-xbert-indigo dark:text-xbert-cyan flex-shrink-0"
+          />
+          <p>
+            Worth knowing before you start. An assistant that runs on your own machine finishes the
+            sign-in on a port on your computer, and XBert accepts port{" "}
+            <span className={MONO}>6274</span>. Claude Code lets you set it — that is what the
+            command on the previous tab does. An assistant that uses a different fixed port and
+            gives you no way to change it can't finish signing in today. If yours won't connect,{" "}
+            <a href={SUPPORT_URL} target="_blank" rel="noopener noreferrer" className={LINK}>
+              tell us which one you use
+            </a>{" "}
+            and we will look at it.
+          </p>
+        </div>
         <StepFlow
           variant="list"
           steps={[
@@ -191,8 +375,8 @@ const CONNECT_TABS = [
               title: "",
               body: (
                 <>
-                  Find where your assistant manages connectors or MCP servers — ChatGPT and
-                  others each name it slightly differently.
+                  Find where your assistant manages connectors or MCP servers — they each name it
+                  slightly differently.
                 </>
               ),
             },
@@ -208,10 +392,18 @@ const CONNECT_TABS = [
         />
         <p className="mt-6 text-sm text-neutral-600 dark:text-neutral-400">
           If your assistant asks for a transport type, choose HTTP (sometimes shown as
-          &ldquo;streamable HTTP&rdquo;). ChatGPT is the one that needs more than an
-          address: developer mode has to be switched on first, and on Plus or Pro you
-          should treat XBert as read-only. The conditions are set out in full under
-          &ldquo;What you need&rdquo; above.
+          &ldquo;streamable HTTP&rdquo;). If it asks for an OAuth client ID, leave it empty — XBert
+          registers itself.
+        </p>
+        <p className="mt-4 text-sm text-neutral-600 dark:text-neutral-400">
+          Microsoft Copilot Studio is an IT job rather than a self-serve one: your administrator
+          adds XBert under{" "}
+          <strong className={STRONG}>Tools → Add a tool → New tool → Model Context Protocol</strong>
+          , and should{" "}
+          <a href={SUPPORT_URL} target="_blank" rel="noopener noreferrer" className={LINK}>
+            talk to us
+          </a>{" "}
+          first — that route needs credentials issued for your tenant.
         </p>
       </div>
     ),
