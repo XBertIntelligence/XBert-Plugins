@@ -17,13 +17,13 @@ export const ROUTE_META = {
   home: {
     title: "XBert MCP — every client, every job, one question away",
     description:
-      "Connect Claude, Claude Code or any MCP-aware assistant to XBert — your clients' books and your practice's own jobs, WIP and capacity, all in plain English. ChatGPT with extra setup.",
+      "Connect Claude, Claude Code or any MCP-aware assistant to XBert — your clients' books and your practice's own jobs, WIP and capacity, all in plain English. ChatGPT and Microsoft Copilot with extra setup.",
     path: "/",
   },
   getStarted: {
-    title: "Get started — connect Claude to XBert",
+    title: "Get started — connect Claude, ChatGPT or Copilot to XBert",
     description:
-      "Connect Claude, Claude Code or another MCP-aware assistant to the XBert MCP — about five minutes on Claude, longer on ChatGPT. Three steps, first prompts, and best practices.",
+      "Connect Claude, Claude Code, ChatGPT, Microsoft Copilot or another MCP-aware assistant to the XBert MCP — about five minutes on Claude, longer on the rest. Steps, first prompts and best practices.",
     path: "/get-started",
   },
   features: {

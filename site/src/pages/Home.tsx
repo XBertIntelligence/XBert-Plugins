@@ -159,7 +159,7 @@ export default function HomePage() {
                 className="mb-8"
               >
                 <Chip icon={<Sparkles size={12} aria-hidden className="text-xbert-indigo dark:text-xbert-cyan" />}>
-                  {"Works with Claude and Claude Code · ChatGPT with extra setup"}
+                  {"Works with Claude and Claude Code · ChatGPT and Microsoft Copilot with extra setup"}
                 </Chip>
               </motion.div>
 
