@@ -88,7 +88,7 @@ export function Header() {
           >
             {theme === "light" ? <Moon size={14} aria-hidden /> : <Sun size={14} aria-hidden />}
           </button>
-          <Link to="/get-started" className={`hidden sm:inline-flex ${primaryButtonClass}`}>
+          <Link to="/get-started#connect" className={`hidden sm:inline-flex ${primaryButtonClass}`}>
             Connect your assistant
             <ArrowRight
               size={16}
@@ -137,7 +137,7 @@ export function Header() {
                 xbert.io ↗
               </a>
               <Link
-                to="/get-started"
+                to="/get-started#connect"
                 onClick={closeMenu}
                 className={`mt-3 inline-flex justify-center ${primaryButtonClass}`}
               >

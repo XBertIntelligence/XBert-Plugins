@@ -1,6 +1,6 @@
 # XBert MCP
 
-> The XBert MCP connects an AI assistant — Claude (web and Desktop), Claude Code, or ChatGPT with extra setup — to XBert, the AI work intelligence layer for bookkeeping and accounting practices. It covers both halves of the work: **client intelligence** (live ledgers, alerts, exception review and write-back across every client file) and **practice intelligence** (the firm's own worklist, tasks, schedules and client notes, plus jobs, timesheets, WIP, recoverability and team capacity for practices on Xero Practice Manager). You ask in plain English, and write actions are marked for your assistant to confirm, with every action written to the XBert audit log.
+> The XBert MCP connects an AI assistant — Claude (web and Desktop), Claude Code, or ChatGPT and Microsoft Copilot with extra setup — to XBert, the AI work intelligence layer for bookkeeping and accounting practices. It covers both halves of the work: **client intelligence** (live ledgers, alerts, exception review and write-back across every client file) and **practice intelligence** (the firm's own worklist, tasks, schedules and client notes, plus jobs, timesheets, WIP, recoverability and team capacity for practices on Xero Practice Manager). You ask in plain English, and write actions are marked for your assistant to confirm, with every action written to the XBert audit log.
 
 - MCP address: https://mcp-gateway.xbert.io/mcp
 - Site: https://intelligence.xbert.io
@@ -16,7 +16,7 @@ Think of it as the plumbing between your assistant and everything XBert already 
 Key facts:
 
 - Address: https://mcp-gateway.xbert.io/mcp (a remote MCP server; if your assistant asks for a transport type, choose HTTP, sometimes shown as "streamable HTTP").
-- Works with: Claude on the web and Claude Desktop (via Customize → Connectors), Claude Code, and any other assistant that supports MCP connectors. ChatGPT works too, with more setting up — see Get started for what your plan and your workspace admin need to allow.
+- Works with: Claude on the web and Claude Desktop (via Customize → Connectors), Claude Code, and any other assistant that supports MCP connectors. ChatGPT works too, with more setting up. Microsoft Copilot is reached by adding XBert as a tool on a Copilot Studio agent — see Get started for what each plan and admin needs to allow.
 - Sign-in: OAuth with your existing XBert account. No new account, no API keys, no code. Your credentials stay with XBert — the assistant never sees your password.
 - Permissions and plan: Two things decide what your assistant can reach: your XBert role, and the client's plan. Role is the one most people think of — if you can't see a client in XBert, your assistant can't either. The second is the plan: the data and reporting tools only run for clients on an AI-enabled plan, so a client on another plan will answer for tasks, templates and notes, but not for its books. That isn't a fault when it happens; it's the plan.
 - Accounting systems reached through XBert: Xero, QuickBooks, MYOB and FreeAgent. Xero Practice Manager is the practice-management source behind jobs, WIP and capacity — it is optional and is not a ledger.
@@ -30,12 +30,13 @@ Key facts:
 1. **Point your assistant at XBert.** In your assistant's connector settings (in Claude: Customize → Connectors), add one address: https://mcp-gateway.xbert.io/mcp
    - Claude (web & Desktop): Customize (left sidebar) → Connectors → + → Add custom connector → name it XBert, paste the address, add it, then select Connect. Connectors moved out of Settings; on Team and Enterprise an Owner must add it first under Organization settings → Connectors. One-click, name and address pre-filled: https://claude.ai/customize/connectors?modal=add-custom-connector&connectorName=XBert&connectorUrl=https%3A%2F%2Fmcp-gateway.xbert.io%2Fmcp
    - Claude Code: run `claude mcp add --transport http --callback-port 6274 xbert https://mcp-gateway.xbert.io/mcp`, then run `/mcp` in your next session and complete the sign-in. The --callback-port 6274 flag is required: XBert accepts only that loopback port, and Claude Code otherwise picks one at random.
-   - ChatGPT: turn on developer mode under Settings → Security and login (web only; on Business, Enterprise and Edu an admin enables it first), then add the address at https://chatgpt.com/plugins.
-   - Other MCP-aware assistants: add a remote MCP server with the address above. Assistants that run on your own machine must complete sign-in on loopback port 6274.
+   - ChatGPT (web only, developer mode required): on a Business, Enterprise or Edu workspace an admin turns on custom MCP connectors under Workspace settings → Permissions & Roles → Connected Data; you then enable Settings → Apps → Advanced Settings → Developer mode and create the connector at Apps → Create, choosing OAuth and Scan tools. On a personal Pro account, turn on developer mode under Settings → Security and login, then add the address at https://chatgpt.com/plugins. OpenAI's developer docs list Plus as eligible while its help centre lists only Business/Enterprise/Edu — do not state Plus eligibility as settled. Pro is documented as read-only.
+   - Microsoft Copilot: there is NO way to paste the address into Microsoft 365 Copilot Chat. You add XBert as a tool on a Copilot Studio agent — Tools → Add a tool → New tool → Model Context Protocol → Server URL https://mcp-gateway.xbert.io/mcp → Authentication OAuth 2.0 → Dynamic discovery (no client ID or secret is needed) → Create a new connection → Add to agent. Generative orchestration must be on. Microsoft caps an agent at 128 tools, so most XBert tools must be switched off with the Allow all toggle. An administrator must approve the agent before colleagues can see it. Microsoft publishes no one-click install link for this.
+   - Other MCP-aware assistants: add a remote MCP server with the address above. Assistants that run on your own machine must complete sign-in on loopback port 6274 — Claude Code (--callback-port 6274) and Goose (GOOSE_OAUTH_CALLBACK_PORT=6274) can be set to it; VS Code (33418) and Cursor (8787) use fixed ports of their own and cannot connect today.
 2. **Sign in to approve.** A browser window opens and you sign in with your XBert account. The assistant gets your permissions — no more, no less.
 3. **Start asking.** Type the question the way you'd ask a colleague — about a client's books, or about how the practice itself is tracking. For example: "Who owes us the most right now, across every client?" and "Who's over capacity next week, and which jobs are running behind?"
 
-Setup takes about five minutes on Claude. ChatGPT needs developer mode enabled first, so allow longer. Illustrated step-by-step guide: https://support.xbert.io/en/articles/14492922-how-to-set-up-the-xbert-mcp
+Setup takes about five minutes on Claude. ChatGPT needs developer mode enabled first, and Microsoft Copilot needs an agent built in Copilot Studio plus an administrator approval, so allow longer for both. Illustrated step-by-step guide: https://support.xbert.io/en/articles/14492922-how-to-set-up-the-xbert-mcp
 
 Before you begin you need three things: an XBert account with your clients' files connected as usual; an assistant that speaks MCP; and your normal XBert login (the assistant signs in as you and can only see what your XBert role allows). Two further conditions: the data and reporting tools only run for clients on an AI-enabled plan, so a client on another plan answers for tasks, templates and notes but not for its books; and on ChatGPT custom connectors sit behind developer mode, which on a Business, Enterprise or Edu workspace an admin has to switch on first.
 
@@ -98,7 +99,7 @@ MCP stands for Model Context Protocol — a standard, secure way for an AI assis
 No. Setup is paste-one-address-and-sign-in, and from then on you type questions the way you'd ask a colleague. There's no code, no API keys and no syntax to learn.
 
 **Which AI assistants work with it?**
-Claude on the web and Claude Desktop (via Customize → Connectors), Claude Code, and any other assistant that supports MCP connectors. ChatGPT works too, with more setting up — see Get started for what your plan and your workspace admin need to allow.
+Claude on the web and Claude Desktop (via Customize → Connectors), Claude Code, and any other assistant that supports MCP connectors. ChatGPT works with more setting up, and Microsoft Copilot works by adding XBert as a tool on a Copilot Studio agent — see Get started for what each plan and admin needs to allow.
 
 **Is my client data safe?**
 You sign in with your XBert account using OAuth, so your credentials stay with XBert and the assistant inherits your XBert role — it can only see what you can see. Write actions are marked for your assistant to confirm, and every action is written to the XBert audit log. You can disconnect the assistant at any time.
@@ -112,7 +113,7 @@ No. You connect with your existing XBert login, and your existing XBert role and
 ## Pages
 
 - [Overview](https://intelligence.xbert.io/): what the XBert MCP is, how it works in three steps, what you can ask about a client's books and about the practice itself, and where the trust boundaries are.
-- [Get started](https://intelligence.xbert.io/get-started): connect Claude, Claude Code or another MCP-aware assistant — about five minutes on Claude, longer on ChatGPT. First prompts, managing access and best practices.
+- [Get started](https://intelligence.xbert.io/get-started): connect Claude, Claude Code, ChatGPT, Microsoft Copilot or another MCP-aware assistant — about five minutes on Claude, longer on the rest. Each assistant has its own anchor: #claude, #claude-code, #chatgpt, #copilot, #other-assistants, plus #technical-details and #manage-access. First prompts, managing access and best practices.
 - [Features](https://intelligence.xbert.io/features): every capability area in plain English — your clients' books and your practice's own performance — each with prompts to try.
 - [Inside XBert](https://intelligence.xbert.io/inside-xbert): how the MCP and the XBert app fit together — same data, same rules, same audit trail.
 
@@ -126,6 +127,9 @@ No. You connect with your existing XBert login, and your existing XBert role and
 ## Facts to quote accurately
 
 - The MCP address is `https://mcp-gateway.xbert.io/mcp`. There is no other endpoint, and no API key.
+- Sign-in uses dynamic client registration, so there is NO XBert client ID or client secret to obtain. Any instruction telling a customer to request credentials from XBert is wrong. In Copilot Studio that means choosing "Dynamic discovery", never "Manual".
+- "Copilot" means several Microsoft products and only one is a route to XBert. Copilot Studio: yes. Microsoft 365 Copilot: only indirectly, via a Copilot Studio agent an administrator approves — you cannot add a connector inside Copilot Chat. Agent Builder ("Create agent") inside Microsoft 365 Copilot: no, it takes knowledge sources only. Consumer Microsoft Copilot: no. GitHub Copilot: a different product entirely.
+- Assistants that run on the user's own machine can only complete sign-in on loopback port 6274. Do not tell a user that VS Code, Cursor, Windsurf, Zed, JetBrains, LM Studio, Cline or Roo Code can connect to XBert today.
 - Do not quote a tool count or a number of capability areas — neither is published.
 - XBert is both **client intelligence** and **practice intelligence** — do not describe the MCP as client-ledger only. The client half covers receivables, payables, bank and cash, payroll, reporting, data quality, alerts and write-back. The practice half covers the firm's own worklist, tasks, schedules, tags and client notes (XBert's own workflow, available to every practice) plus jobs, timesheets, WIP, recoverability and team capacity (these come from Xero Practice Manager and require it — do not imply a practice gets them without XPM). XPM WIP and recoverability are reported in time (minutes and hours), not in dollars — do not restate them as amounts.
 - Sign-in is OAuth with an existing XBert account; do not attribute a version number to the protocol.

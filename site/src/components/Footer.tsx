@@ -113,7 +113,7 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="https://www.xbert.io/privacy-policy"
+                  href="https://www.xbert.io/global-privacy-policy"
                   target="_blank"
                   rel="noopener noreferrer"
                   className={footerLinkClass}
