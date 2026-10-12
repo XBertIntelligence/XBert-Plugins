@@ -42,8 +42,8 @@ const ANTHROPIC_CONNECTOR_GUIDE =
   "https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp";
 const CLAUDE_CODE_DOCS = "https://code.claude.com/docs/en/mcp";
 const CHATGPT_PLUGINS_URL = "https://chatgpt.com/plugins";
-const OPENAI_DEVELOPER_MODE_GUIDE =
-  "https://developers.openai.com/api/docs/guides/developer-mode";
+const OPENAI_CUSTOM_MCP_GUIDE =
+  "https://developers.openai.com/api/docs/guides/custom-mcp-server";
 const OPENAI_HELP_MCP =
   "https://help.openai.com/en/articles/12584461-developer-mode-and-mcp-apps-in-chatgpt";
 
@@ -58,7 +58,8 @@ const OPENAI_HELP_MCP =
  * navigation links rather than a one-click button.
  */
 const COPILOT_STUDIO_URL = "https://copilotstudio.microsoft.com";
-const COPILOT_STUDIO_NEW_URL = "https://copilotstudio.com/";
+const COPILOT_STUDIO_CLASSIC_DOCS =
+  "https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/switch-experiences";
 const POWER_PLATFORM_ADMIN_URL = "https://admin.powerplatform.microsoft.com/";
 const COPILOT_STUDIO_MCP_DOCS =
   "https://learn.microsoft.com/en-us/microsoft-copilot-studio/mcp-add-existing-server-to-agent";
@@ -101,11 +102,12 @@ const CHECKLIST = [
       <>
         With your clients' files connected as usual — Xero, QuickBooks, MYOB or FreeAgent,
         plus Xero Practice Manager if you use it: XPM is what powers the practice-side
-        questions about jobs, WIP and capacity. The MCP works with what's already in
-        XBert. One thing worth checking: the data and reporting tools only run for clients
-        on an AI-enabled plan. A client on any other plan still works for the workflow
-        side — tasks, templates and notes — but ask about its books and the assistant will
-        come back and say the plan doesn't allow it. Not on XBert yet? Start at{" "}
+        questions about jobs, timesheets and WIP. The MCP works with what's already in
+        XBert. One thing worth knowing: questions across all your clients cover the ones on
+        an AI-enabled plan — Financial AI or Workflow AI — and the assistant tells you which
+        it left out. Questions about the books need the client's ledger connected, and a
+        client on hold for an unpaid invoice can't be read at all. Not on XBert yet? Start
+        at{" "}
         <a href="https://xbert.io" target="_blank" rel="noopener noreferrer" className={LINK}>
           xbert.io
         </a>
@@ -119,9 +121,9 @@ const CHECKLIST = [
     body: (
       <>
         Claude is the straightforward path — web, Desktop or Claude Code, and you paste one
-        address. ChatGPT takes more setting up: custom MCP connectors sit behind developer
-        mode, which is web only, and on a Business, Enterprise or Edu workspace an admin has
-        to switch it on and publish the connector before anyone else can use it. Microsoft
+        address. ChatGPT takes more setting up: custom MCP servers are added on the web only,
+        and on a Business, Enterprise or Edu workspace an admin has to allow them and publish
+        XBert before anyone else can use it. Microsoft
         Copilot is a different shape again — you reach XBert by building a small agent in
         Copilot Studio, and someone in IT approves it before the rest of the practice sees
         it. Each one has its own steps below.
@@ -134,11 +136,11 @@ const CHECKLIST = [
     body: (
       <>
         That's the security model in one line: the assistant signs in as you and can only
-        see what your XBert role allows. If you can't see a client in XBert, your
-        assistant can't either. Role isn't the only gate, though — the client's plan
-        decides whether the data tools answer at all. On a workspace plan, connector
+        reach the clients you can reach in XBert. If you can't see a client in XBert, your
+        assistant can't either. Access isn't the only gate, though — the client's plan
+        decides what it can answer. On a workspace plan, connector
         settings are usually an admin's to switch on — ChatGPT in particular needs one to
-        enable developer mode before you can add anything.
+        allow custom MCP servers before you can add anything.
       </>
     ),
   },
@@ -159,7 +161,7 @@ const COPILOT_PRODUCTS = [
     name: "Microsoft 365 Copilot",
     what: "Copilot Chat in Teams, Word, Outlook and on the web.",
     xbert: "indirect",
-    note: "You can't paste our address in here — Microsoft documents no self-serve path. You reach it by building the Copilot Studio agent above and having an administrator approve it.",
+    note: "You can't paste our address in here. Microsoft now supports MCP servers through a packaged plugin or declarative agent, but that needs a package XBert hasn't published yet — so today you reach it through a Copilot Studio agent added to Teams and Microsoft Copilot.",
   },
   {
     name: "Create agent / Agent Builder",
@@ -177,7 +179,7 @@ const COPILOT_PRODUCTS = [
     name: "GitHub Copilot",
     what: "The coding assistant in VS Code and Visual Studio.",
     xbert: "no",
-    note: "A different product entirely. Listed only so nobody goes looking for XBert in the wrong place.",
+    note: "A different product entirely — and not the same thing as the “GitHub Copilot harness” that runs Copilot Studio's newer experience. Listed only so nobody goes looking for XBert in the wrong place.",
   },
 ];
 
@@ -195,33 +197,33 @@ const NOT_YET_CLIENTS = [
   },
   {
     name: "Cursor",
-    reason: "Signs in on a fixed port of its own (8787), with no way to change it.",
+    reason: "The desktop app signs in on a fixed port of its own (8787); its web and Agents sign-in uses a Cursor address we don't accept yet.",
   },
   {
-    name: "Windsurf",
-    reason: "Its install link only opens servers already listed in Cognition's own registry, so we can't point it at XBert.",
+    name: "Devin Desktop (formerly Windsurf)",
+    reason: "Supports sign-in, but doesn't document which port it comes back on, so we can't say it will finish.",
   },
   {
     name: "Zed",
-    reason: "No install link and no documented sign-in flow for remote servers.",
+    reason: "Signs in on a different port each time, with no way to fix it.",
   },
   {
     name: "JetBrains IDEs",
-    reason: "Documents header-based keys rather than a sign-in flow, so there's no way to reach an XBert token.",
+    reason: "AI Assistant has no sign-in flow for remote servers yet, and Junie doesn't document the port it signs in on.",
   },
   {
     name: "LM Studio",
-    reason: "Same — header-based keys only, no sign-in flow.",
+    reason: "Signs in on a fixed port of its own (33389), with no way to change it.",
   },
   {
-    name: "Cline / Roo Code",
-    reason: "No documented sign-in flow for remote servers.",
+    name: "Cline",
+    reason: "Signs in on fixed ports of its own (1456 to 1461), with no way to change them.",
   },
 ];
 
 const FIRST_PROMPTS = [
   "What can you do with my XBert account?",
-  "List the clients I look after, and who's assigned to each.",
+  "Which of my clients can you see in XBert?",
   "Summarise this week's XBert alerts for [client].",
   "Show me aged receivables for [client] — who should I chase first?",
   "What's on my worklist today, and which jobs are running behind?",
@@ -230,22 +232,22 @@ const FIRST_PROMPTS = [
 const ACCESS_BLOCKS = [
   {
     title: "Turn it off in one place.",
-    body: "Remove or disable the XBert connector in your assistant's settings and the connection is gone. Reconnect any time by signing in again.",
+    body: "Remove or disable the XBert connector in your assistant's settings and it stops connecting. Reconnect any time by signing in again. To end someone's access for certain — a lost laptop, someone leaving — remove them in XBert: every call is checked against XBert, so their assistant loses access with them.",
   },
   {
-    title: "Access follows your role.",
-    body: "The assistant only ever holds the permissions of the person signed in. Change someone's role in XBert and their assistant's reach changes with it — nothing is granted beyond that.",
+    title: "Access follows your client access.",
+    body: "The assistant only ever holds the permissions of the person signed in. Change someone's client access in XBert and their assistant's reach changes with it — nothing is granted beyond that.",
   },
   {
     title: "Everything leaves a trail.",
-    body: "Every write is validated and checked for duplicates first, and each one is marked as a change to confirm, so your assistant stops and asks before it submits. That approval prompt belongs to the assistant rather than to XBert — what XBert guarantees is your permissions, the validation and an audit-log entry on every action.",
+    body: "Every change the assistant can make is marked as a change to confirm, so your assistant stops and asks before it submits. That approval prompt belongs to the assistant rather than to XBert — what XBert guarantees is your permissions, the validation and an audit-log entry on every action.",
   },
 ];
 
 const BEST_PRACTICES = [
   {
     lead: "Start with questions, not changes.",
-    body: "Spend your first week asking — balances, alerts, worklists. Move to drafting tasks and write-backs once the answers have earned your trust.",
+    body: "Spend your first week asking — balances, alerts, worklists. Move to creating and updating tasks once the answers have earned your trust.",
   },
   {
     lead: "Be specific.",
@@ -440,10 +442,7 @@ export default function GetStartedPage() {
                       body: (
                         <>
                           Select <strong className={STRONG}>Customize</strong> in Claude&rsquo;s left
-                          sidebar, then the <strong className={STRONG}>Connectors</strong> tab. Some of
-                          Anthropic&rsquo;s own pages still call this{" "}
-                          <strong className={STRONG}>Settings → Connectors</strong>, so don&rsquo;t
-                          worry if the wording differs from what you see.
+                          sidebar, then the <strong className={STRONG}>Connectors</strong> tab.
                         </>
                       ),
                     },
@@ -451,7 +450,7 @@ export default function GetStartedPage() {
                       title: "",
                       body: (
                         <>
-                          Select <strong className={STRONG}>+</strong>, then{" "}
+                          Select <strong className={STRONG}>+ Add</strong>, then{" "}
                           <strong className={STRONG}>Add custom connector</strong>.
                         </>
                       ),
@@ -461,9 +460,12 @@ export default function GetStartedPage() {
                       body: (
                         <>
                           Name it <strong className={STRONG}>XBert</strong>, paste the address above as
-                          the remote MCP server URL, and select <strong className={STRONG}>Add</strong>.
-                          Leave the Client ID and Client Secret boxes empty — XBert registers itself, so
-                          there is nothing for you to fetch from us.
+                          the server URL, and select <strong className={STRONG}>Continue</strong>. Keep
+                          what Claude picks on the next screen —{" "}
+                          <strong className={STRONG}>Register automatically</strong> for the OAuth
+                          client — and select <strong className={STRONG}>Add</strong>. XBert registers
+                          itself, so there is no client ID or secret to fetch from us; if your screen
+                          shows Client ID and Client Secret boxes, leave them empty.
                         </>
                       ),
                     },
@@ -471,8 +473,8 @@ export default function GetStartedPage() {
                       title: "",
                       body: (
                         <>
-                          Select <strong className={STRONG}>Connect</strong> and sign in with your XBert
-                          account in the window that opens.
+                          Sign in with your XBert account in the window that opens. If it doesn&rsquo;t
+                          open, select <strong className={STRONG}>Connect</strong> next to XBert.
                         </>
                       ),
                     },
@@ -489,12 +491,14 @@ export default function GetStartedPage() {
                   On a Team or Enterprise plan? An Owner goes first.
                 </h4>
                 <p className="mt-2 text-sm text-neutral-700 dark:text-neutral-400 leading-relaxed">
-                  Members can&rsquo;t add a custom connector on those plans. An Owner adds XBert once
-                  for the whole firm under{" "}
-                  <strong className={STRONG}>Organization settings → Connectors</strong> — labelled{" "}
-                  <strong className={STRONG}>Admin settings</strong> in some places — and everyone else
-                  then finds XBert under <strong className={STRONG}>Customize → Connectors</strong> and
-                  selects <strong className={STRONG}>Connect</strong>. On Free, Pro and Max you add it
+                  Members can&rsquo;t add a custom connector on those plans. An Owner or Primary
+                  Owner — on Enterprise, also anyone whose custom role includes{" "}
+                  <strong className={STRONG}>Manage access to Libraries</strong> — adds XBert once for
+                  the whole firm under{" "}
+                  <strong className={STRONG}>Organization settings → Connectors → Add → Custom → Web</strong>,
+                  and everyone else then finds XBert under{" "}
+                  <strong className={STRONG}>Customize → Connectors</strong> and selects{" "}
+                  <strong className={STRONG}>Connect</strong>. On Free, Pro and Max you add it
                   yourself, with no admin involved — though Free allows only one custom connector at a
                   time.
                 </p>
@@ -596,129 +600,100 @@ export default function GetStartedPage() {
             <ConnectSection
               id="chatgpt"
               title="ChatGPT"
-              badge="Developer mode"
-              lead="Custom MCP connectors sit behind developer mode, which is web only. Where you find it depends on whether you are on a workspace or a personal plan."
+              badge="Web only"
+              lead="ChatGPT adds custom MCP servers on the web, not in the mobile apps. On a Business, Enterprise or Edu workspace an admin has to allow them first."
             >
               <div className="flex flex-wrap items-center gap-3">
                 <ConnectButton href={CHATGPT_PLUGINS_URL}>Open ChatGPT plugins</ConnectButton>
-                <ConnectButton href={OPENAI_DEVELOPER_MODE_GUIDE} variant="secondary">
-                  OpenAI: turn on developer mode
+                <ConnectButton href={OPENAI_CUSTOM_MCP_GUIDE} variant="secondary">
+                  OpenAI: add a custom MCP server
                 </ConnectButton>
               </div>
               <p className="mt-4 text-sm text-neutral-600 dark:text-neutral-400">
                 ChatGPT has no one-click install, so the first button only opens the page where you add
-                the connection — you still paste the address yourself. Developer mode has to be on first
-                or there is nowhere to add anything.
+                the connection — you still paste the address yourself.
               </p>
 
               <div className="mt-8 rounded-xl border border-black/10 bg-black/[0.02] dark:border-white/10 dark:bg-white/[0.02] p-5">
                 <h4 className="text-sm font-semibold text-neutral-900 dark:text-white">
-                  On a Business, Enterprise or Edu workspace
+                  On a Business, Enterprise or Edu workspace, an admin goes first
                 </h4>
-                <div className="mt-3">
-                  <StepFlow
-                    variant="list"
-                    steps={[
-                      {
-                        title: "",
-                        body: (
-                          <>
-                            An admin or owner opens{" "}
-                            <strong className={STRONG}>Workspace settings</strong> and, under{" "}
-                            <strong className={STRONG}>Permissions &amp; Roles → Connected Data</strong>,
-                            turns on custom MCP connectors.
-                          </>
-                        ),
-                      },
-                      {
-                        title: "",
-                        body: (
-                          <>
-                            Once you have access, open{" "}
-                            <strong className={STRONG}>Settings → Apps → Advanced Settings</strong> and
-                            turn on <strong className={STRONG}>Developer mode</strong>.
-                          </>
-                        ),
-                      },
-                      {
-                        title: "",
-                        body: (
-                          <>
-                            Go to <strong className={STRONG}>Apps → Create</strong>, name it{" "}
-                            <strong className={STRONG}>XBert</strong> with a short description, and
-                            paste the address above as the MCP server URL — keep the{" "}
-                            <span className={MONO}>/mcp</span> on the end.
-                          </>
-                        ),
-                      },
-                      {
-                        title: "",
-                        body: (
-                          <>
-                            Choose <strong className={STRONG}>OAuth</strong>, select{" "}
-                            <strong className={STRONG}>Scan tools</strong>, sign in to XBert, then
-                            select <strong className={STRONG}>Create</strong>. It appears as a draft — an
-                            admin or owner publishes it from{" "}
-                            <strong className={STRONG}>Workspace settings → Apps → Drafts</strong>.
-                          </>
-                        ),
-                      },
-                    ]}
-                  />
-                </div>
+                <p className="mt-2 text-sm text-neutral-700 dark:text-neutral-400 leading-relaxed">
+                  An admin or owner opens <strong className={STRONG}>Workspace settings</strong> and,
+                  under <strong className={STRONG}>Permissions &amp; roles</strong>, turns on{" "}
+                  <strong className={STRONG}>Create plugins with MCPs</strong> (older workspaces show
+                  this under <strong className={STRONG}>Connected Data</strong>). On Business, only an
+                  admin or owner can add XBert, and they then publish it for everyone else.
+                </p>
               </div>
 
-              <div className="mt-4 rounded-xl border border-black/10 bg-black/[0.02] dark:border-white/10 dark:bg-white/[0.02] p-5">
-                <h4 className="text-sm font-semibold text-neutral-900 dark:text-white">
-                  On a personal Pro account
-                </h4>
-                <div className="mt-3">
-                  <StepFlow
-                    variant="list"
-                    steps={[
-                      {
-                        title: "",
-                        body: (
-                          <>
-                            Open <strong className={STRONG}>Settings → Security and login</strong> and
-                            turn on <strong className={STRONG}>Developer mode</strong>.
-                          </>
-                        ),
-                      },
-                      {
-                        title: "",
-                        body: (
-                          <>
-                            Go to <strong className={STRONG}>Plugins</strong> and select{" "}
-                            <strong className={STRONG}>+</strong>.
-                          </>
-                        ),
-                      },
-                      {
-                        title: "",
-                        body: (
-                          <>
-                            Give it a name and description, paste the address above under{" "}
-                            <strong className={STRONG}>Connection</strong>, choose{" "}
-                            <strong className={STRONG}>OAuth</strong>, and sign in to XBert.
-                          </>
-                        ),
-                      },
-                    ]}
-                  />
-                </div>
+              <div className="mt-8">
+                <StepFlow
+                  variant="list"
+                  steps={[
+                    {
+                      title: "",
+                      body: (
+                        <>
+                          Go to <strong className={STRONG}>Plugins</strong>, select{" "}
+                          <strong className={STRONG}>+</strong>, then{" "}
+                          <strong className={STRONG}>Add custom MCP server</strong>.
+                        </>
+                      ),
+                    },
+                    {
+                      title: "",
+                      body: (
+                        <>
+                          Name it <strong className={STRONG}>XBert</strong> with a short description,
+                          and under <strong className={STRONG}>Connection</strong> paste the address
+                          above as the server URL — keep the <span className={MONO}>/mcp</span> on the
+                          end.
+                        </>
+                      ),
+                    },
+                    {
+                      title: "",
+                      body: (
+                        <>
+                          Choose <strong className={STRONG}>OAuth</strong> for authentication, read the
+                          risk warning and select{" "}
+                          <strong className={STRONG}>I understand and want to continue</strong>, then{" "}
+                          <strong className={STRONG}>Create as a plugin</strong>. Sign in with your XBert
+                          account when the window opens.
+                        </>
+                      ),
+                    },
+                    {
+                      title: "",
+                      body: (
+                        <>
+                          On a workspace, an admin or owner shares it with everyone else from{" "}
+                          <strong className={STRONG}>Plugins → Personal</strong>, using the{" "}
+                          <strong className={STRONG}>•••</strong> menu and{" "}
+                          <strong className={STRONG}>Publish</strong>.
+                        </>
+                      ),
+                    },
+                  ]}
+                />
               </div>
 
               <p className="mt-6 text-sm text-neutral-600 dark:text-neutral-400">
-                <strong className={STRONG}>Check what your own plan allows.</strong> OpenAI&rsquo;s
-                developer documentation lists Plus as eligible for developer mode, while its help centre
-                lists only Business, Enterprise and Edu — so if you are on Plus and developer mode
-                doesn&rsquo;t appear, that is why. On Pro, OpenAI documents read-only access, so XBert
-                can answer questions but not take action. Write actions are a beta on the workspace
-                plans. OpenAI has called this area Connectors, Apps and now Plugins, so if the wording
-                differs, look for wherever custom MCP servers are created.{" "}
+                <strong className={STRONG}>No Add custom MCP server option?</strong> Some accounts
+                still need <strong className={STRONG}>Developer mode</strong> switched on first,
+                under <strong className={STRONG}>Settings → Plugins → Advanced settings</strong> (older
+                workspaces: <strong className={STRONG}>Settings → Apps → Advanced settings</strong>).
+              </p>
+              <p className="mt-4 text-sm text-neutral-600 dark:text-neutral-400">
+                <strong className={STRONG}>Check what your own plan allows.</strong> OpenAI documents
+                this for Business, Enterprise and Edu, where write actions are in beta, and read-only
+                access on Pro — there, XBert can answer questions but not take action. Plus isn&rsquo;t
+                documented. OpenAI has called this area Connectors, Apps and now Plugins, and its own
+                help pages don&rsquo;t all agree yet, so if the wording differs, look for wherever
+                custom MCP servers are added.{" "}
                 <a href={OPENAI_HELP_MCP} target="_blank" rel="noopener noreferrer" className={LINK}>
-                  OpenAI on developer mode and MCP →
+                  OpenAI on MCP in ChatGPT →
                 </a>
               </p>
             </ConnectSection>
@@ -785,17 +760,21 @@ export default function GetStartedPage() {
               </div>
               <p className="mt-4 text-sm text-neutral-600 dark:text-neutral-400">
                 Microsoft publishes no one-click install link for adding a tool, so this one is
-                click-steps rather than a button. If your Copilot Studio signs you in at{" "}
+                click-steps rather than a button. Copilot Studio now opens in its newer experience
+                (in preview), where the path is{" "}
+                <strong className={STRONG}>Build → Tools → Add → Model Context Protocol (MCP)</strong>.
+                Microsoft documents the sign-in steps below for classic agents: to build one, select{" "}
+                <strong className={STRONG}>…</strong> at the bottom of the home page&rsquo;s side bar
+                and then <strong className={STRONG}>Open classic experience</strong>, or choose{" "}
+                <strong className={STRONG}>Other ways to build</strong> when you create the agent.{" "}
                 <a
-                  href={COPILOT_STUDIO_NEW_URL}
+                  href={COPILOT_STUDIO_CLASSIC_DOCS}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={LINK}
                 >
-                  copilotstudio.com
-                </a>{" "}
-                instead, you are on Microsoft&rsquo;s newer experience and the path is{" "}
-                <strong className={STRONG}>Build → Tools → Add → Model Context Protocol (MCP)</strong>.
+                  Microsoft on switching →
+                </a>
               </p>
 
               <div className="mt-8 rounded-xl border border-black/10 bg-black/[0.02] dark:border-white/10 dark:bg-white/[0.02] p-5">
@@ -833,8 +812,9 @@ export default function GetStartedPage() {
                   </li>
                   <li>
                     <strong className={STRONG}>Licences.</strong> Whoever builds the agent needs a
-                    Copilot Studio or Microsoft 365 Copilot licence. People who only use the finished
-                    agent don&rsquo;t need one. Worth knowing: the free trial can build and test an
+                    Copilot Studio or Microsoft 365 Copilot licence, and your organisation needs
+                    Copilot Credits — a prepaid pack or pay-as-you-go. People who only use the finished
+                    agent don&rsquo;t need a licence. Worth knowing: the free trial can build and test an
                     agent but <strong className={STRONG}>cannot publish it</strong>.{" "}
                     <a
                       href={COPILOT_STUDIO_LICENSING}
@@ -918,16 +898,16 @@ export default function GetStartedPage() {
                   className="mt-0.5 text-amber-600 dark:text-amber-400 flex-shrink-0"
                 />
                 <p>
-                  <strong className={STRONG}>Turn most of the tools off.</strong> XBert publishes far
-                  more tools than Copilot Studio will take — Microsoft caps an agent at 128 and
-                  recommends 25 to 30. Switch <strong className={STRONG}>Allow all</strong> off and
-                  enable only the ones your firm actually needs, or the agent won&rsquo;t behave. Once
-                  Allow all is off, tools we add later arrive switched off too, so check back after an
-                  XBert release. If you&rsquo;re not sure which to pick,{" "}
+                  <strong className={STRONG}>Leave all seven tools on.</strong> XBert shows Copilot
+                  Studio just seven tools: three that find and run the rest of XBert on demand, and
+                  four for signing in and choosing your business. That keeps you well inside
+                  Microsoft&rsquo;s limit, and new XBert capabilities reach your agent without you
+                  doing anything. Leave <strong className={STRONG}>Allow all</strong> on — switch any
+                  of the seven off and the agent can lose its way into XBert. Questions?{" "}
                   <a href={SUPPORT_URL} target="_blank" rel="noopener noreferrer" className={LINK}>
-                    ask us
-                  </a>{" "}
-                  and we will suggest a starting set.
+                    Ask us
+                  </a>
+                  .
                 </p>
               </div>
 
@@ -937,14 +917,14 @@ export default function GetStartedPage() {
                 </h4>
                 <p className="mt-2 text-sm text-neutral-700 dark:text-neutral-400 leading-relaxed">
                   Publish the agent, then under <strong className={STRONG}>Channels</strong> add{" "}
-                  <strong className={STRONG}>Teams and Microsoft 365 Copilot</strong>. Expect one more
-                  step you can&rsquo;t skip:{" "}
+                  <strong className={STRONG}>Teams and Microsoft Copilot</strong>. You can install it
+                  yourself and share its install link with named colleagues;{" "}
                   <strong className={STRONG}>
-                    the agent isn&rsquo;t visible to your colleagues until an administrator approves it
+                    listing it for the whole practice needs an administrator&rsquo;s approval
                   </strong>
-                  . Test it in the <strong className={STRONG}>Test agent</strong> panel or in Teams
-                  while you wait — sign-in doesn&rsquo;t work on the Demo Website channel, so that one
-                  will look broken when it isn&rsquo;t.{" "}
+                  . Test it in the <strong className={STRONG}>Test agent</strong> panel or in Teams —
+                  sign-in doesn&rsquo;t work on the Demo Website channel, so that one will look broken
+                  when it isn&rsquo;t.{" "}
                   <a
                     href={M365_AGENT_STORE_DOCS}
                     target="_blank"
@@ -967,7 +947,7 @@ export default function GetStartedPage() {
                 <h4 className="text-sm font-semibold text-neutral-900 dark:text-white">Goose</h4>
                 <p className="mt-2 text-sm text-neutral-700 dark:text-neutral-400 leading-relaxed">
                   Goose is the one desktop assistant besides Claude Code that can complete our sign-in,
-                  because Block lets you set the port it comes back on.{" "}
+                  because it lets you set the port it comes back on.{" "}
                   <strong className={STRONG}>
                     Set <span className={MONO}>GOOSE_OAUTH_CALLBACK_PORT</span> to{" "}
                     <span className={MONO}>6274</span> first
@@ -1148,8 +1128,11 @@ export default function GetStartedPage() {
             <p className="mt-4 text-sm text-neutral-700 dark:text-neutral-400 leading-relaxed">
               XBert is reached over the public internet, so there is no firewall change to make for
               the assistants that run in the cloud. If your firm manages your devices and filters
-              outbound traffic, ask IT to allow <span className={MONO}>mcp-gateway.xbert.io</span> and{" "}
-              <span className={MONO}>auth.xbert.io</span>.
+              outbound traffic, ask IT to allow <span className={MONO}>mcp-gateway.xbert.io</span>,{" "}
+              <span className={MONO}>auth.xbert.io</span> and{" "}
+              <span className={MONO}>cdn.auth0.com</span> — the sign-in page loads from the last
+              two. If you sign in to XBert with Google, Xero or QuickBooks, their sign-in pages
+              need to be reachable too.
             </p>
           </div>
 
@@ -1163,13 +1146,17 @@ export default function GetStartedPage() {
                 list above rather than behind a button.
               </li>
               <li>
-                <strong className={STRONG}>Copilot Studio takes far fewer tools than XBert publishes.</strong>{" "}
-                Microsoft caps an agent at 128. You choose which XBert tools that agent gets.
+                <strong className={STRONG}>A client&rsquo;s plan decides what can be answered.</strong>{" "}
+                Questions across all your clients cover the ones on an AI-enabled plan — Financial
+                AI or Workflow AI — and the assistant says which it left out. Questions about the
+                books need the client&rsquo;s ledger connected. A client on hold for an unpaid
+                invoice can&rsquo;t be read at all.
               </li>
               <li>
-                <strong className={STRONG}>A client&rsquo;s plan decides what can be answered.</strong>{" "}
-                The data and reporting tools only run for clients on an AI-enabled plan. Tasks,
-                templates and notes work either way.
+                <strong className={STRONG}>It doesn&rsquo;t post to the ledger.</strong> Your
+                assistant reads your clients&rsquo; books and works on the practice side — tasks,
+                notes, comments, schedules — but it doesn&rsquo;t create or change transactions in
+                Xero, QuickBooks, MYOB or FreeAgent.
               </li>
               <li>
                 <strong className={STRONG}>Your assistant does the asking, not us.</strong> The prompt
@@ -1181,7 +1168,7 @@ export default function GetStartedPage() {
         </div>
         <p className="mt-6 text-xs text-neutral-500 dark:text-neutral-400 max-w-4xl">
           Assistant menus move constantly. The steps above were checked against each vendor&rsquo;s own
-          documentation on 10 September 2026 — if a menu name has changed since, look for the nearest
+          documentation on 12 October 2026 — if a menu name has changed since, look for the nearest
           equivalent, and{" "}
           <a href={SUPPORT_URL} target="_blank" rel="noopener noreferrer" className={LINK}>
             tell us

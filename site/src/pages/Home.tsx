@@ -28,18 +28,18 @@ const SETUP_GUIDE_URL =
   "https://support.xbert.io/en/articles/14492922-how-to-set-up-the-xbert-mcp";
 
 const ASK_PROMPTS = [
-  "Who owes us the most right now, across every client?",
-  "Who's over capacity next week, and which jobs are running behind?",
+  "Who owes Bayside Cafe the most right now, and for how long?",
+  "Who's over capacity next week, and which tasks are running behind?",
   "What fired in XBert this week? Anything urgent?",
   "How many WIP hours are sitting on Fisher & Co, and how recoverable are they?",
   "Run last quarter's P&L for Bayside Cafe and compare it to budget.",
-  "Draft a task for the tax coding fix and assign it to Priya — I'll review it first.",
+  "Create a task for the tax coding fix and assign it to Priya.",
 ];
 
 const TRUST_ROWS: { can: string; never: string }[] = [
   {
-    can: "See the clients and data your XBert role allows",
-    never: "See any client or data outside your role",
+    can: "Reach the clients you can reach in XBert",
+    never: "Reach a client you can't see in XBert",
   },
   {
     can: "Read numbers, lists and records when you ask",
@@ -53,7 +53,7 @@ const TRUST_ROWS: { can: string; never: string }[] = [
   {
     can: "Work only while connected",
     never:
-      "Keep any access once you remove the connector in your assistant's settings",
+      "Keep reaching XBert once you've been removed from XBert — every call is checked",
   },
 ];
 
@@ -65,7 +65,7 @@ const CLUSTERS = [
   },
   {
     title: "The firm's own numbers",
-    body: "Jobs, timesheets, WIP and recoverability. WIP comes through as time — hours, not dollars. Team capacity against the time actually worked, so you can see who's stretched and who has room. From Xero Practice Manager, if that's where your practice runs.",
+    body: "Team capacity from XBert's own workflow — each person's estimated work against the hours they have, so you can see who's stretched and who has room. And if your practice runs Xero Practice Manager: jobs, timesheets, WIP and recoverability, with WIP as time — hours, not dollars.",
     icon: <Users size={18} aria-hidden className="text-xbert-indigo dark:text-xbert-cyan" />,
   },
   {
@@ -75,7 +75,7 @@ const CLUSTERS = [
   },
   {
     title: "The doing",
-    body: "Worklists, tasks and schedules across the whole portfolio. Client notes and conversations. Write-back to the ledger with validation, duplicate checks and your sign-off.",
+    body: "Worklists, tasks and schedules across the whole portfolio. Client notes and conversations. Status changes, comments and reminders on the task, each one put to you before it goes through.",
     icon: <ListChecks size={18} aria-hidden className="text-xbert-indigo dark:text-xbert-cyan" />,
   },
 ];
@@ -114,22 +114,22 @@ const FAQS = [
   {
     question: "Which AI assistants work with it?",
     answer:
-      "Claude on the web and Claude Desktop (via Customize → Connectors), Claude Code, and any other assistant that supports MCP connectors. ChatGPT works too, with more setting up — see Get started for what your plan and your workspace admin need to allow.",
+      "Claude on the web and Claude Desktop (via Customize → Connectors), Claude Code, and any other assistant that supports MCP connectors. ChatGPT works too, with more setting up, and Microsoft Copilot works by adding XBert as a tool on a Copilot Studio agent — see Get started for what your plan and your admin need to allow.",
   },
   {
     question: "Is my client data safe?",
     answer:
-      "You sign in with your XBert account using OAuth, so your credentials stay with XBert and the assistant inherits your XBert role — it can only see what you can see. Write actions are marked for your assistant to confirm, and every action is written to the XBert audit log. You can disconnect the assistant at any time.",
+      "You sign in with your XBert account using OAuth, so your credentials stay with XBert and the assistant inherits your XBert access — it can only reach the clients you can reach. Write actions are marked for your assistant to confirm, and every action is written to the XBert audit log. You can disconnect the assistant at any time.",
   },
   {
     question: "Can the assistant change my clients' books without me?",
     answer:
-      "Not without it being put to you first. Write actions — creating a bill, recording a payment, updating a contact — are validated, checked for duplicates and marked as changes to confirm, which is what makes Claude and other MCP clients stop and ask you before submitting. The approval step runs in your assistant; the permission check, the validation and the audit-log entry are XBert's.",
+      "No. The assistant doesn't post to your clients' ledgers at all — it reads the books and works on the practice side: tasks, notes, comments, schedules and Custom XBerts. Each of those changes is marked as a change to confirm, which is what makes Claude and other MCP clients stop and ask you before submitting. The approval step runs in your assistant; the permission check, the validation and the audit-log entry are XBert's.",
   },
   {
     question: "Which clients can my assistant work with?",
     answer:
-      "Two things decide what your assistant can reach: your XBert role, and the client's plan. Role is the one most people think of — if you can't see a client in XBert, your assistant can't either. The second is the plan: the data and reporting tools only run for clients on an AI-enabled plan, so a client on another plan will answer for tasks, templates and notes, but not for its books. That isn't a fault when it happens; it's the plan.",
+      "Two things decide what your assistant can reach: your client access in XBert, and the client's plan. Access is the one most people think of — if you can't see a client in XBert, your assistant can't either. The second is the plan: questions across all your clients cover the ones on an AI-enabled plan — Financial AI or Workflow AI — and the assistant tells you which it left out. Questions about the books need the client's ledger connected, and a client on hold for an unpaid invoice can't be read at all. That isn't a fault when it happens; it's the plan.",
   },
   {
     question: "Do I need a new account or login?",
@@ -180,7 +180,7 @@ export default function HomePage() {
                 className="mt-7 text-lg md:text-xl text-neutral-700 dark:text-neutral-300 max-w-2xl leading-relaxed"
               >
                 {
-                  "You already use Claude or ChatGPT for the words — the XBert MCP puts that same assistant to work on the actual books: your clients' live ledgers, alerts and workflow. And — if you run Xero Practice Manager — the jobs, WIP and capacity that show how your own practice is running. You ask in plain English, it does the digging, and anything that changes the books is flagged for your approval first."
+                  "You already use Claude or ChatGPT for the words — the XBert MCP puts that same assistant to work on the actual books: your clients' live ledgers, alerts and workflow. And the workload and capacity that show how your own practice is running — plus jobs and WIP if you run Xero Practice Manager. You ask in plain English, it does the digging, and anything it changes is flagged for your approval first."
                 }
               </motion.p>
 
@@ -342,7 +342,7 @@ export default function HomePage() {
           className="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
         >
           <p className="text-sm text-neutral-500 dark:text-neutral-400">
-            {"Every answer comes from live XBert data, under your own login — not the assistant's memory. Data questions need the client on an AI-enabled plan."}
+            {"Every answer comes from live XBert data, under your own login — not the assistant's memory. Questions about the books need the client's ledger connected."}
           </p>
           <Link
             to="/features"
@@ -363,7 +363,7 @@ export default function HomePage() {
         <SectionHeading
           title="You stay the reviewer."
           lead={
-            "Think of it as giving a very capable new team member a supervised login. Letting an assistant near the books is a big step — here is exactly where the lines are. Every write is validated and checked for duplicates first, and each one is marked as a change to confirm, so your assistant stops and asks before it submits. That approval prompt belongs to the assistant rather than to XBert — what XBert guarantees is your permissions, the validation and an audit-log entry on every action."
+            "Think of it as giving a very capable new team member a supervised login. Letting an assistant near the books is a big step — here is exactly where the lines are. It doesn't post to your clients' ledgers, and every change it can make is marked as a change to confirm, so your assistant stops and asks before it submits. That approval prompt belongs to the assistant rather than to XBert — what XBert guarantees is your permissions, the validation and an audit-log entry on every action."
           }
         />
         <motion.div

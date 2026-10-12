@@ -49,12 +49,12 @@ export default function InsideXBertPage() {
         {
           label: "Lives in",
           value:
-            "Claude on the web or Desktop, Claude Code — or ChatGPT, with extra setup",
+            "Claude on the web or Desktop, Claude Code — or ChatGPT and Microsoft Copilot, with extra setup",
         },
         { label: "Connects via", value: "MCP" },
         {
           label: "What you get",
-          value: "the full XBert tool catalogue",
+          value: "the XBert tools built for outside assistants, found on demand",
         },
       ],
     },
