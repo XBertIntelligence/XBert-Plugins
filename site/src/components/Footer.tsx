@@ -128,7 +128,7 @@ export function Footer() {
         <div className="border-t border-black/[0.06] dark:border-white/[0.06] mt-10 pt-6 space-y-2">
           <p className="text-xs text-neutral-500 dark:text-neutral-400">
             XBert connects to Xero, QuickBooks, MYOB and FreeAgent — plus Xero Practice Manager, if
-            your practice runs it, for jobs, WIP and capacity.
+            your practice runs it, for jobs, timesheets and WIP.
           </p>
           <div className="flex flex-wrap items-center gap-2 text-xs text-neutral-500 dark:text-neutral-400">
             <span>MCP endpoint:</span>

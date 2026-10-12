@@ -63,10 +63,10 @@ const AREAS: Area[] = [
     name: "Practice management (Xero Practice Manager)",
     eyebrow: "Area 04 — Practice management (Xero Practice Manager)",
     title: "Run the firm like a business.",
-    body: "If your practice runs Xero Practice Manager, this is where the assistant looks at you rather than your clients: XPM clients and jobs — tasks, milestones, staff — plus timesheets, WIP and recoverability, and a live read on team capacity versus actual time. WIP comes through as time — hours, not dollars. The partner questions, answered before the partner asks.",
+    body: "If your practice runs Xero Practice Manager, this is where the assistant looks at you rather than your clients: XPM clients and jobs — tasks, milestones, staff — plus timesheets, WIP and recoverability. WIP comes through as time — hours, not dollars. The partner questions, answered before the partner asks.",
     prompts: [
       "How many WIP hours are sitting on Fisher & Co, and how recoverable are they?",
-      "Who has capacity next week, and who's already over?",
+      "Which timesheets were logged against Glenview Homes' year-end job last week?",
       "Show me the milestones and staff on Glenview Homes' year-end job.",
     ],
   },
@@ -75,11 +75,11 @@ const AREAS: Area[] = [
     name: "Workflow, tasks & worklist",
     eyebrow: "Area 05 — Workflow, tasks & worklist",
     title: "Keep every job moving.",
-    body: "The practice's own worklist: work item updates, client tasks (including from your own templates), assigning, snoozing, due dates and estimates, bulk subtasks, tags, workflow templates and recurring schedules. Delegate to the assistant the way you'd delegate to a coordinator — and review the same way too.",
+    body: "The practice's own worklist: work item updates, client tasks (including from your own templates), assigning, snoozing, due dates and estimates, bulk subtasks, tags, workflow templates and recurring schedules — plus team capacity, each person's estimated work against the hours they have. All from XBert's own workflow, with no Xero Practice Manager needed. Delegate to the assistant the way you'd delegate to a coordinator — and review the same way too.",
     prompts: [
       "What's on my worklist today, across every client?",
       "Create a month-end task for Brightside Vet from our template and assign it to Priya.",
-      "Snooze everything on Kelly's Auto until Monday.",
+      "Who has capacity on Monday, and who's already over?",
     ],
     approveChip: true,
   },
@@ -88,11 +88,11 @@ const AREAS: Area[] = [
     name: "Payroll, employees & super",
     eyebrow: "Area 06 — Payroll, employees & super",
     title: "Answer payroll questions in seconds.",
-    body: "Employees with their leave, tax, bank and retirement-contribution details (superannuation in Australia), pay runs, payslips and leave applications. For Australian practices it goes further: payroll year-end finalisation totals (STP Phase 2) and workers-compensation wages (WorkCover). The questions that used to mean opening four screens now take one sentence.",
+    body: "Employees with their leave, tax, bank and retirement-contribution details (superannuation in Australia), pay runs, payslips and leave applications. For Australian practices it goes further: payroll year-end finalisation totals (STP Phase 2) and workers-compensation wages (WorkCover — complete for Victoria, provisional for the other states for now). The questions that used to mean opening four screens now take one sentence.",
     prompts: [
       "Summarise the last pay run for Coastal Care — totals and who was paid.",
       "What leave applications are waiting, and what balances do those staff have?",
-      "Give me this financial year's STP finalisation totals for our Australian clients.",
+      "Give me this financial year's STP finalisation totals for Coastal Care.",
     ],
   },
   {
@@ -100,11 +100,11 @@ const AREAS: Area[] = [
     name: "BI, ledger & financial reporting",
     eyebrow: "Area 07 — BI, ledger & financial reporting",
     title: "See the story behind the numbers.",
-    body: "P&L and balance sheet, journals and manual journals, fixed assets with depreciation, budget versus actual, and — for Australian files — the tax and activity statement figures (BAS and IAS). Plus a data-quality score for the file, so you know how much to trust what you're reading.",
+    body: "P&L and balance sheet, journals and manual journals, fixed assets with depreciation, budget versus actual, and — for Australian files — the activity statement figures for each BAS quarter. Plus a data-quality score for the file, so you know how much to trust what you're reading.",
     prompts: [
       "Run last quarter's P&L against budget and call out the misses.",
       "List the manual journals posted in June and what they touched.",
-      "What are the activity statement figures for this period — BAS and IAS?",
+      "What are the activity statement figures for the September BAS quarter?",
     ],
   },
   {
@@ -112,10 +112,10 @@ const AREAS: Area[] = [
     name: "Client notes & communication",
     eyebrow: "Area 08 — Client notes & communication",
     title: "Walk into every call prepared.",
-    body: "Client notes with version history and topics, client conversations and chat messages, and sharing notes into conversations. Three years of context, summarised before your 2pm.",
+    body: "Client notes with version history and topics, your XBert conversations and chat messages, and sharing notes into conversations. Three years of context, summarised before your 2pm.",
     prompts: [
       "Summarise every note we hold on Harbour Landscaping, newest first.",
-      "Find where we discussed the vehicle purchase with the client.",
+      "What's changed in Harbour Landscaping's engagement note since last month?",
       "Share the March pricing note into their conversation.",
     ],
     approveChip: true,
@@ -148,14 +148,14 @@ const AREAS: Area[] = [
   },
   {
     id: "actions",
-    name: "Accounting write-back",
-    eyebrow: "Area 11 — Accounting write-back",
-    title: "Stop re-keying.",
-    body: "Create and update contacts, create bills and bank transactions from documents, record bill payments and bank transfers, and add comments, statuses, reminders and file attachments to tasks. Every write is validated and checked against duplicates before anything is submitted to Xero, QuickBooks, MYOB or FreeAgent — and each one is marked as a change to confirm, so your assistant stops and asks before it submits. The assistant does the entry; you do the approving.",
+    name: "Task updates & documents",
+    eyebrow: "Area 11 — Task updates & documents",
+    title: "Close the loop on the task.",
+    body: "Move a task along without opening it: change its status, add comments, and put a reminder on it that @mentions a colleague. Ask for the task's own email-in address and forward the client's documents straight to it — and from an assistant that can upload files, such as Claude Code, attach a file. Each change is marked for your assistant to confirm before it goes through. The assistant doesn't post to your clients' ledgers: nothing it does here reaches Xero, QuickBooks, MYOB or FreeAgent.",
     prompts: [
-      "Process the invoice that just landed on this task — create the supplier bill, and check it's not a duplicate first.",
-      "Set up the new supplier as a contact and put a reminder on the task.",
-      "Record the transfer between the trading and savings accounts.",
+      "Mark the Bayside Cafe BAS task in progress and add a comment that the statements are in.",
+      "Put a reminder on Kelly's Auto's year-end task for Priya — the fuel receipts are still missing.",
+      "Give me the email-in address for Glenview Homes' onboarding task so I can forward the documents.",
     ],
     approveChip: true,
   },
@@ -176,7 +176,7 @@ const COMPOSE_STEPS = [
   },
   {
     title: "Act — with your review.",
-    body: "Anything that changes the books is flagged for your approval first. You approve, amend or bin it.",
+    body: "Anything that changes your data is flagged for your approval first. You approve, amend or bin it.",
   },
 ];
 
@@ -206,8 +206,9 @@ export default function FeaturesPage() {
           >
             You'll never call a tool by name — you just ask Claude, ChatGPT or whichever AI you
             use, and it picks the right ones. The areas below run across both halves of
-            the week: your clients' books, and how your own practice is tracking — jobs, WIP,
-            capacity and workload, for firms on Xero Practice Manager. Each area is a job you
+            the week: your clients' books, and how your own practice is tracking — workload and
+            capacity from XBert's own workflow, plus jobs and WIP for firms on Xero Practice
+            Manager. Each area is a job you
             already do; the prompts are the words that get it done.
           </motion.p>
 
@@ -263,7 +264,7 @@ export default function FeaturesPage() {
           className="mt-10 max-w-3xl"
         >
           <p className="text-neutral-700 dark:text-neutral-300 leading-relaxed">
-            {`Here's the shape in the wild: “Who owes us the most across the practice?” gets a summary. “Show me Harbour Landscaping's overdue invoices” gets the records. “Draft a chase task and assign it to Priya” gets an action flagged for your approval — which you approve, amend or bin. The same four moves answer “how many WIP hours are we carrying?” and “who's over next week?” just as readily. You'll fall into the rhythm without thinking about it.`}
+            {`Here's the shape in the wild: “Who owes Harbour Landscaping the most?” gets a summary. “Show me Harbour Landscaping's overdue invoices” gets the records. “Create a chase task and assign it to Priya” gets an action flagged for your approval — which you approve, amend or bin. The same four moves answer “how many WIP hours are we carrying?” and “who's over next week?” just as readily. You'll fall into the rhythm without thinking about it.`}
           </p>
           <p className="mt-4 text-sm text-neutral-500 dark:text-neutral-400">
             Numbers first. Detail second. Changes flagged for your approval.
@@ -326,7 +327,7 @@ export default function FeaturesPage() {
       <section className="max-w-6xl mx-auto px-6 py-14 md:py-20">
         <SectionHeading
           title="The rules don't change as you go deeper."
-          lead="Every area above runs under the same three rules: the assistant only sees what your XBert role allows; every write is validated, checked for duplicates and marked as a change to confirm, so your assistant stops and asks before it submits; and every action is written to the audit log. That approval prompt belongs to the assistant rather than to XBert. One thing worth checking: the data and reporting tools only run for clients on an AI-enabled plan. A client on any other plan still works for the workflow side — tasks, templates and notes — but ask about its books and the assistant will come back and say the plan doesn't allow it. Depth of capability, not depth of risk."
+          lead="Every area above runs under the same three rules: the assistant only reaches the clients you can reach in XBert; every change it can make is marked as a change to confirm, so your assistant stops and asks before it submits; and every action is written to the audit log. That approval prompt belongs to the assistant rather than to XBert. One thing worth knowing: questions across all your clients cover the ones on an AI-enabled plan — Financial AI or Workflow AI — and the assistant tells you which it left out. Questions about the books need the client's ledger connected, and a client on hold for an unpaid invoice can't be read at all. Depth of capability, not depth of risk."
         />
         <motion.div
           initial={{ opacity: 0, y: 12 }}
